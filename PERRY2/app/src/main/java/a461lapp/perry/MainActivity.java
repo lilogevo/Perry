@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), Date.class);
+                Bundle extras = new Bundle();
+                extras.putInt("ex_int", 42);
+                i.putExtras(extras);
+                //Integer num = extras.getInt("ex_int");// goes in data.java
                 startActivity(i);
             }
         });
