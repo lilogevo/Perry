@@ -24,8 +24,8 @@ public class Date extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
-        textview = (TextView) findViewById(R.id.textView);
-        picker = (DatePicker) findViewById(R.id.datePicker);
+        textview = (TextView) findViewById(R.id.date_activity_text_view);
+        picker = (DatePicker) findViewById(R.id.date_activity_date_picker);
 
         textview.setText(getCurrentDate());
         confirmDate.setOnClickListener(new View.OnClickListener(){
