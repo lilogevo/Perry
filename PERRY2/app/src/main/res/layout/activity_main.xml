@@ -9,8 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="a461lapp.perry.MainActivity">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/ex"
+        android:text="Click me"/>
 </RelativeLayout>
