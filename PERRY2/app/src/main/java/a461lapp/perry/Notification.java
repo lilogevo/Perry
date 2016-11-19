@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import java.util.Calendar;
 
 /**
  * Created by bkool on 11/12/2016.
@@ -17,6 +18,7 @@ public class Notification extends Activity {
     private Date date;
     private Time time;
     private PendingIntent pendingIntent;
+    private Calendar calendar;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,11 @@ public class Notification extends Activity {
     }
 
     private void setAlarmDate() {
-
+        Date date = new Date();
+        int year = Integer.valueOf(date.getYear());
+        int month = Integer.valueOf(date.getMonth());
+        int day = Integer.valueOf(date.getDay());
+        calendar.set(year, month, day);
     }
 
     private void createAlarm() {

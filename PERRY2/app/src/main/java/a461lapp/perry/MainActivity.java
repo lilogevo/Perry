@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         changeActivityExampleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Date.class);
+                Intent i = new Intent(getApplicationContext(), Notification.class);
                 Bundle extras = new Bundle();
                 extras.putInt("ex_int", 42);
                 i.putExtras(extras);
