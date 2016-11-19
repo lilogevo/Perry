@@ -15,8 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Date"></activity>
-        <activity android:name=".AlarmTimes"></activity>
+        <activity android:name=".Date" />
+        <activity android:name=".AlarmTimes" />
+        <activity android:name=".ListAlarmsActivity"></activity>
     </application>
 
 </manifest>

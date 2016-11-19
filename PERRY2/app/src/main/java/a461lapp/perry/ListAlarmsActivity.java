@@ -70,8 +70,8 @@ public class ListAlarmsActivity extends Activity {
         return arrayList;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+     /*@Override
+   public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.menu_list_alarms, menu);
         return true;
@@ -87,8 +87,8 @@ public class ListAlarmsActivity extends Activity {
         //noinspection SimplifiableIfStatement
        /*if (id == R.id.action_settings) {
             return true;
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }
