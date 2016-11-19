@@ -50,16 +50,16 @@ public class Notification extends Activity {
         });
     }
 
-    private void setAlarmTime() {
 
-    }
-
-    private void setAlarmDate() {
+    private void setAlarmDateTime() {
         Date date = new Date();
+        Time time = new Time();
         int year = Integer.valueOf(date.getYear());
         int month = Integer.valueOf(date.getMonth());
         int day = Integer.valueOf(date.getDay());
-        calendar.set(year, month, day);
+        int hour = Integer.valueOf(date.getHour());
+        int minute = Integer.valueOf(date.getMinute());
+        calendar.set(year, month, day, hour, minute);
     }
 
     private void createAlarm() {
