@@ -60,83 +60,27 @@
             android:clickable="false" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView android:id="@+id/Type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="35sp"
-            android:paddingRight="160sp"
-            android:layout_gravity="center_vertical"
-            android:text="Type" />
-        <EditText
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:paddingBottom="35sp"
-            android:id="@+id/editText1"
-            android:clickable="false" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView android:id="@+id/Sound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="35sp"
-            android:paddingRight="135sp"
-            android:layout_gravity="center_vertical"
-            android:text="Sound" />
-        <EditText
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:paddingBottom="35sp"
-            android:id="@+id/editText2"
-            android:clickable="false" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView android:id="@+id/Daily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="35sp"
-            android:paddingRight="95sp"
-            android:layout_gravity="center_vertical"
-            android:text="Vibration" />
-        <EditText
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:paddingBottom="35sp"
-            android:id="@+id/editText3"
-            android:clickable="false"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/setTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.38">
+        android:layout_below="@+id/setTime"
+        android:layout_marginBottom="20dp"
+        android:text="Set Time" />
 
-        <DatePicker
-            android:layout_width="match_parent"
-            android:layout_height="69dp"
-            android:id="@+id/datePicker"
-            android:layout_gravity="right" />
+    <Button
+        android:id="@+id/setDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setDate"
+        android:layout_marginBottom="20dp"
+        android:text="Set Date" />
 
-    </LinearLayout>
-
-    <TextView
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView" />
+        android:text="New CheckBox"
+        android:id="@+id/checkBox"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

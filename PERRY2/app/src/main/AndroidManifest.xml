@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Date" />
-        <activity android:name=".AlarmTimes" />
+        <activity android:name=".SetAlarm" />
         <activity android:name=".ListAlarmsActivity"></activity>
     </application>
 
