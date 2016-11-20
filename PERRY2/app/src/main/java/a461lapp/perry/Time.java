@@ -18,7 +18,7 @@ public class Time extends AppCompatActivity {
     private Button displayTime;
     private TextView textview;
     private String hour;
-    private String am_pm;
+    private String am_pm = " AM";
     private String minute;
 
     @Override
@@ -28,7 +28,6 @@ public class Time extends AppCompatActivity {
 
         textview = (TextView) findViewById(R.id.time_activity_text_view);
         picker = (TimePicker) findViewById(R.id.time_activity_time_picker);
-        picker.setIs24HourView(false);
         displayTime = (Button) findViewById(R.id.time_activity_confirm_button);
 
         textview.setText(getCurrentTime());
@@ -45,8 +44,21 @@ public class Time extends AppCompatActivity {
     }
 
     public String getCurrentTime(){
-        this.hour = "" + picker.getHour();
+        int h = picker.getHour();
+        if(h >= 12){
+            this.am_pm = " PM";             //time is PM and converts the time
+            if(h >= 13 && h <24){           //1-11pm
+                h-= 12;
+            } else {
+                h = 12;
+            }              //12pm
+        } else if(h == 0){
+            h = 12;                        //12am
+        }
+
+        this.hour = "" + h;
         this.minute = "" + picker.getMinute();
+
 
         StringBuilder builder=new StringBuilder();
         builder.append("Current Time: ");
