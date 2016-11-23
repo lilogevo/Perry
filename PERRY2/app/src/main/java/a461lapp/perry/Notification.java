@@ -14,7 +14,6 @@ import java.util.Calendar;
  */
 public class Notification extends Activity {
 
-    private SetAlarm alarm;
     private Date date;
     private Time time;
     private PendingIntent pendingIntent;
@@ -51,9 +50,8 @@ public class Notification extends Activity {
     }
 
 
-    private void setAlarmDateTime() {
+    private void setAlarmDate() {
         Date date = new Date();
-        Time time = new Time();
         int year = Integer.valueOf(date.getYear());
         int month = Integer.valueOf(date.getMonth());
         int day = Integer.valueOf(date.getDay());
@@ -62,14 +60,16 @@ public class Notification extends Activity {
         calendar.set(year, month, day, hour, minute);
     }
 
+    public void setAlarmTime() {
+        time = new Time();
+    }
+
     private void createAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000 * 60 * 20;
 
-        /* Set the alarm to start at time and date specified by user */
-
-
-        /* Repeating on every n minutes interval */
-
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+               interval, pendingIntent);
     }
 
 }
