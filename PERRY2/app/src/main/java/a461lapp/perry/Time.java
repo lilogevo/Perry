@@ -1,5 +1,6 @@
 package a461lapp.perry;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,7 @@ public class Time extends AppCompatActivity {
 
     }
 
+    @TargetApi(23)
     public String getCurrentTime(){
         int h = picker.getHour();
         if(h >= 12){

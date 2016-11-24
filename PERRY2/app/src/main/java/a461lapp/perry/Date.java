@@ -19,6 +19,8 @@ public class Date extends AppCompatActivity {
     private String year;
     private String month;
     private String day;
+    private String hour;
+    private String minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,10 @@ public class Date extends AppCompatActivity {
     public String getDay(){
         return day;
     }
+
+    public String getHour() {return hour;}
+
+    public String getMinute() {return minute;}
 
 }
 
