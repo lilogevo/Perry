@@ -12,6 +12,32 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ex"
-        android:text="Click me"/>
+        android:id="@+id/createAlarm"
+        android:text="+"
+        android:layout_marginLeft="22dp"
+        android:layout_alignBaseline="@+id/alarmName"
+        android:layout_alignBottom="@+id/alarmName"
+        android:layout_toRightOf="@+id/alarmName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="Enter Task Name"
+        android:ems="10"
+        android:id="@+id/alarmName"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/mainHeader"
+        android:layout_alignLeft="@+id/mainHeader" />
+
+    <TextView
+        android:text="Perry: Personal Secretary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainHeader"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_marginLeft="54dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
 </RelativeLayout>
