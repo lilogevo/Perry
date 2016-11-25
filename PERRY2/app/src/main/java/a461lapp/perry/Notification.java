@@ -7,17 +7,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import java.util.Calendar;
 
 /**
  * Created by bkool on 11/12/2016.
  */
+
 public class Notification extends Activity {
 
     private Date date;
     private Time time;
     private PendingIntent pendingIntent;
     private Calendar calendar;
+    private String year;
+    private String month;
+    private String day;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +42,13 @@ public class Notification extends Activity {
         findViewById(R.id.setDate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAlarmDate();
+                date = new Date();
+                calendar = Calendar.getInstance();
+                Intent i = new Intent(Notification.this, Date.class);
+                i.putExtra("Editing", date);
+                startActivityForResult(i, 123456);
             }
+
         });
 
         findViewById(R.id.checkBox).setOnClickListener(new View.OnClickListener() {
@@ -47,18 +57,20 @@ public class Notification extends Activity {
                 createAlarm();
             }
         });
+
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 123456 && resultCode == RESULT_OK && data != null) {
+            year = data.getStringExtra("Year");
+            month = data.getStringExtra("Month");
+            day = data.getStringExtra("Day");
 
-    private void setAlarmDate() {
-        Date date = new Date();
-        int year = Integer.valueOf(date.getYear());
-        int month = Integer.valueOf(date.getMonth());
-        int day = Integer.valueOf(date.getDay());
-        int hour = Integer.valueOf(date.getHour());
-        int minute = Integer.valueOf(date.getMinute());
-        calendar.set(year, month, day, hour, minute);
+        }
+
     }
+
 
     public void setAlarmTime() {
         time = new Time();
@@ -68,8 +80,14 @@ public class Notification extends Activity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * 20;
 
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 57);
+        //calendar.set(Integer.valueOf(year),Integer.valueOf(month), Integer.valueOf(day), 17, 51);
+
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                interval, pendingIntent);
+
     }
 
 }

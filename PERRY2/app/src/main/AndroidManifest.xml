@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Date" />
+        <activity android:name=".Notification" />
+        <activity android:name=".Time" />
         <activity android:name=".ListAlarmsActivity"></activity>
     </application>
 
