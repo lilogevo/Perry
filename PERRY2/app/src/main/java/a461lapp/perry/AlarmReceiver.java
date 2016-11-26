@@ -14,5 +14,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         System.out.println("received");
         Toast.makeText(context, "I'm running", Toast.LENGTH_SHORT).show();
+
+        Intent ringtone_intent = new Intent(context, RingtoneService.class);
+        context.startService(ringtone_intent);
     }
 }

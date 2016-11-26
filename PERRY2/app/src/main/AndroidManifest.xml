@@ -19,6 +19,8 @@
         <activity android:name=".Notification" />
         <activity android:name=".Time" />
         <activity android:name=".ListAlarmsActivity"></activity>
+        <service android:name =".RingtoneService"
+            android:enabled="true"></service>
     </application>
 
 </manifest>
