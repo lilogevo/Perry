@@ -77,9 +77,9 @@ public class Time extends AppCompatActivity implements Serializable {
 
         StringBuilder builder=new StringBuilder();
         builder.append("Current Time: ");
-        builder.append(this.hour + "/");
-        builder.append(this.minute + "/");
-        builder.append(this.am_pm + "/");
+        builder.append(this.hour + ":");
+        builder.append(this.minute + "");
+        builder.append(this.am_pm);
         return builder.toString();
     }
 
