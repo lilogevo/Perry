@@ -18,11 +18,14 @@ public class Notification extends Activity {
 
     private Date date;
     private Time time;
-    private PendingIntent pendingIntent;
     private Calendar calendar;
+    private PendingIntent pendingIntent;
+
     private String year;
     private String month;
     private String day;
+    private String hour;
+    private String minute;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +38,11 @@ public class Notification extends Activity {
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAlarmTime();
+                time = new Time();
+                calendar = Calendar.getInstance();
+                Intent j = new Intent(Notification.this, Time.class);
+                j.putExtra("EditingTime", time);
+                startActivityForResult(j, 7890);
             }
         });
 
@@ -62,6 +69,7 @@ public class Notification extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == 123456 && resultCode == RESULT_OK && data != null) {
             year = data.getStringExtra("Year");
             month = data.getStringExtra("Month");
@@ -69,11 +77,10 @@ public class Notification extends Activity {
 
         }
 
-    }
-
-
-    public void setAlarmTime() {
-        time = new Time();
+        if ((requestCode == 7890) && (resultCode == RESULT_OK) && (data != null)) {
+            hour = data.getStringExtra("Hour");
+            minute = data.getStringExtra("Minute");
+        }
     }
 
     private void createAlarm() {
@@ -83,11 +90,10 @@ public class Notification extends Activity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 57);
-        //calendar.set(Integer.valueOf(year),Integer.valueOf(month), Integer.valueOf(day), 17, 51);
+        calendar.set(Integer.valueOf(year),Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute));
 
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-               interval, pendingIntent);
+                interval, pendingIntent);
 
     }
-
 }

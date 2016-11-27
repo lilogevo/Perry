@@ -2,6 +2,7 @@ package a461lapp.perry;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,11 +10,13 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 
 /**
  * Created by bkool on 11/18/2016.
  */
-public class Time extends AppCompatActivity {
+public class Time extends AppCompatActivity implements Serializable {
 
     private TimePicker picker;
     private Button displayTime;
@@ -41,7 +44,17 @@ public class Time extends AppCompatActivity {
 
         });
 
-
+        displayTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textview.setText(getCurrentTime());
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Hour", getHour());
+                resultIntent.putExtra("Minute", getMinute());
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
 
     @TargetApi(23)
