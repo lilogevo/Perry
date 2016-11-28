@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import java.util.Calendar;
 
 /**
@@ -20,6 +22,9 @@ public class Notification extends Activity {
     private Time time;
     private Calendar calendar;
     private PendingIntent pendingIntent;
+    private EditText alarmName;
+    private TextView alarmHeader;
+    private String result;
 
     private String year;
     private String month;
@@ -34,6 +39,11 @@ public class Notification extends Activity {
         /* Retrieve a PendingIntent that will perform a broadcast */
         Intent alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, 0);
+        Intent taskIntent = getIntent();
+        alarmHeader = (TextView) findViewById(R.id.text);
+        result = taskIntent.getStringExtra("alarm");
+        alarmHeader.setText(result);
+
 
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
             @Override
