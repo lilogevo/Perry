@@ -19,8 +19,14 @@
         <activity android:name=".Notification" />
         <activity android:name=".Time" />
         <activity android:name=".ListAlarmsActivity"></activity>
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
         <service android:name =".RingtoneService"
             android:enabled="true"></service>
     </application>
+
 
 </manifest>
