@@ -30,8 +30,6 @@ public class Notification extends Activity {
     private String dateResult;
     private Intent alarmIntent;
     private Intent taskIntent;
-    private Intent timeIntent;
-    private Intent dateIntent;
 
     private String year;
     private String month;

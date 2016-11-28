@@ -48,12 +48,10 @@ public class Time extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 textview.setText(getCurrentTime());
-//                Intent resultIntent = new Intent();
                 Intent resultIntent = new Intent(Time.this, Notification.class);
                 resultIntent.putExtra("time", textview.getText().toString());
                 resultIntent.putExtra("Hour", getHour());
                 resultIntent.putExtra("Minute", getMinute());
-//                startActivity(verifyTime);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
@@ -94,6 +92,5 @@ public class Time extends AppCompatActivity implements Serializable {
         return minute;
     }
 
-//    public String getAm_pm() {return am_pm;}
 
 }
