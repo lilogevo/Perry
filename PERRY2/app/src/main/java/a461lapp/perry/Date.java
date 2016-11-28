@@ -45,10 +45,13 @@ public class Date extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 textview.setText(getCurrentDate());
-                Intent resultIntent = new Intent();
+//                Intent resultIntent = new Intent();
+                Intent resultIntent = new Intent(Date.this, Notification.class);
+                resultIntent.putExtra("date", textview.getText().toString());
                 resultIntent.putExtra("Year", getYear());
                 resultIntent.putExtra("Month", getMonth());
                 resultIntent.putExtra("Day", getDay());
+//                startActivity(verifyDate);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
@@ -64,7 +67,7 @@ public class Date extends AppCompatActivity implements Serializable {
 
 
         StringBuilder builder=new StringBuilder();
-        builder.append("Current Date: ");
+        builder.append("Date Set: ");
         builder.append(this.month + "/");//month is 0 based
         builder.append(this.day + "/");
         builder.append(this.year);

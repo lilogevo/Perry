@@ -23,8 +23,15 @@ public class Notification extends Activity {
     private Calendar calendar;
     private PendingIntent pendingIntent;
     private TextView alarmHeader;
-    private String result;
+    private TextView timeHeader;
+    private TextView dateHeader;
+    private String taskResult;
+    private String timeResult;
+    private String dateResult;
     private Intent alarmIntent;
+    private Intent taskIntent;
+    private Intent timeIntent;
+    private Intent dateIntent;
 
     private String year;
     private String month;
@@ -39,10 +46,13 @@ public class Notification extends Activity {
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, 0);
-        Intent taskIntent = getIntent();
+        taskIntent = getIntent();
         alarmHeader = (TextView) findViewById(R.id.text);
-        result = taskIntent.getStringExtra("alarm");
-        alarmHeader.setText(result);
+        timeHeader = (TextView) findViewById(R.id.changedTime);
+        dateHeader = (TextView) findViewById(R.id.changedDate);
+        taskResult = taskIntent.getStringExtra("alarm");
+        alarmHeader.setText(taskResult);
+
         calendar = Calendar.getInstance();
 
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
@@ -50,6 +60,7 @@ public class Notification extends Activity {
             public void onClick(View v) {
                 time = new Time();
                 Intent j = new Intent(Notification.this, Time.class);
+
                 j.putExtra("EditingTime", time);
                 startActivityForResult(j, 7890);
             }
@@ -63,6 +74,7 @@ public class Notification extends Activity {
                 i.putExtra("Editing", date);
                 startActivityForResult(i, 123456);
             }
+
 
         });
 
@@ -83,11 +95,16 @@ public class Notification extends Activity {
             month = data.getStringExtra("Month");
             day = data.getStringExtra("Day");
 
+            dateResult = data.getStringExtra("date");
+            dateHeader.setText(dateResult);
         }
 
         if ((requestCode == 7890) && (resultCode == RESULT_OK) && (data != null)) {
             hour = data.getStringExtra("Hour");
             minute = data.getStringExtra("Minute");
+
+            timeResult = data.getStringExtra("time");
+            timeHeader.setText(timeResult);
         }
     }
 
