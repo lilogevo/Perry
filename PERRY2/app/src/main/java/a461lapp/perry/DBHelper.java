@@ -16,8 +16,9 @@ import java.util.HashMap;
 public class DBHelper extends SQLiteOpenHelper {
     private static DBHelper mInstance;
     public static final String DATABASE_NAME = "alarm.db";
-    public static final String TABLE_NAME = "alarmtable";
+    public static final String TABLE_NAME = "alarm_list";
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DAY = "day";
     public static final String COLUMN_MONTH = "month";
     public static final String COLUMN_YEAR = "year";
@@ -48,9 +49,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table " + TABLE_NAME + " " +
-                        "(id integer primary key, " + COLUMN_MONTH + " integer, " + COLUMN_DAY + " integer, "
-                        + COLUMN_YEAR + " integer, " + COLUMN_HOUR + " integer, " + COLUMN_MINUTE + " integer)"
+                "create table " + TABLE_NAME + " " + COLUMN_ID +
+                        "(id integer primary key, " + COLUMN_NAME + " text, " +
+                        COLUMN_HOUR + " integer, " + COLUMN_MINUTE + " integer)"
         );
     }
 
@@ -70,8 +71,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_HOUR, calendar.get(Calendar.HOUR));
         contentValues.put(COLUMN_MINUTE, calendar.get(Calendar.MINUTE));
 
-        db.insert(TABLE_NAME, null, contentValues);
-        return true;
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        if(result == -1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     public Cursor getData(int id) {
