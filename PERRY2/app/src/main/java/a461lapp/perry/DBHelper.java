@@ -62,14 +62,15 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertAlarm(Calendar calendar) {
+    public boolean insertAlarm(Notification notification) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_MONTH, calendar.get(Calendar.MONTH));
-        contentValues.put(COLUMN_DAY, calendar.get(Calendar.DATE));
-        contentValues.put(COLUMN_YEAR, calendar.get(Calendar.YEAR));
-        contentValues.put(COLUMN_HOUR, calendar.get(Calendar.HOUR));
-        contentValues.put(COLUMN_MINUTE, calendar.get(Calendar.MINUTE));
+        contentValues.put(COLUMN_NAME, notification.getName());
+        contentValues.put(COLUMN_MONTH, notification.getMonth());
+        contentValues.put(COLUMN_DAY, notification.getDay());
+        contentValues.put(COLUMN_YEAR, notification.getYear());
+        contentValues.put(COLUMN_HOUR, notification.getHour());
+        contentValues.put(COLUMN_MINUTE, notification.getMinute());
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if(result == -1){
@@ -92,14 +93,15 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateAlarm(Integer id, Calendar calendar) {
+    public boolean updateAlarm(Integer id, Notification notification) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOUR, calendar.get(Calendar.HOUR));
-        contentValues.put(COLUMN_MINUTE, calendar.get(Calendar.MINUTE));
-        contentValues.put(COLUMN_MONTH, calendar.get(Calendar.MONTH));
-        contentValues.put(COLUMN_DAY, calendar.get(Calendar.DATE));
-        contentValues.put(COLUMN_YEAR, calendar.get(Calendar.YEAR));
+        contentValues.put(COLUMN_NAME, notification.getName());
+        contentValues.put(COLUMN_MONTH, notification.getMonth());
+        contentValues.put(COLUMN_DAY, notification.getDay());
+        contentValues.put(COLUMN_YEAR, notification.getYear());
+        contentValues.put(COLUMN_HOUR, notification.getHour());
+        contentValues.put(COLUMN_MINUTE, notification.getMinute());
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
@@ -112,8 +114,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{Integer.toString(id)});
     }
 
-    public ArrayList<Calendar> getAllAlarms() {
-        ArrayList<Calendar> arrayList = new ArrayList<Calendar>();
+    public ArrayList<Notification> getAllAlarms() {
+        ArrayList<Notification> arrayList = new ArrayList<Notification>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -121,16 +123,14 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(
-                    res.getInt(res.getColumnIndex(COLUMN_YEAR)),
-                    res.getInt(res.getColumnIndex(COLUMN_MONTH)),
-                    res.getInt(res.getColumnIndex(COLUMN_DAY)),
-                    res.getInt(res.getColumnIndex(COLUMN_HOUR)),
-                    res.getInt(res.getColumnIndex(COLUMN_MINUTE))
-            );
-
-            arrayList.add(calendar);
+            Notification notification = new Notification();
+            notification.setName(res.getString(res.getColumnIndex(COLUMN_NAME)));
+            notification.setYear(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_YEAR))));
+            notification.setMonth(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MONTH))));
+            notification.setDay(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_DAY))));
+            notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_HOUR))));
+            notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
+            arrayList.add(notification);
             res.moveToNext();
         }
         return arrayList;
@@ -150,23 +150,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    public Calendar getAlarm(int id) {
+    public Notification getAlarm(int id) {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor res = db.rawQuery("select * from " + TABLE_NAME + " where id=" + id + "", null);
         res.moveToPosition(0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(
-                res.getInt(res.getColumnIndex(COLUMN_YEAR)),
-                res.getInt(res.getColumnIndex(COLUMN_MONTH)),
-                res.getInt(res.getColumnIndex(COLUMN_DAY)),
-                res.getInt(res.getColumnIndex(COLUMN_HOUR)),
-                res.getInt(res.getColumnIndex(COLUMN_MINUTE))
-        );
-
+        Notification notification = new Notification();
+        notification.setName(res.getString(res.getColumnIndex(COLUMN_NAME)));
+        notification.setYear(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_YEAR))));
+        notification.setMonth(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MONTH))));
+        notification.setDay(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_DAY))));
+        notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_HOUR))));
+        notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
         res.close();
-        return calendar;
+        return notification;
     }
 }
 

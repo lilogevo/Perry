@@ -17,9 +17,10 @@ import java.util.Calendar;
 public class ListAlarmsActivity extends Activity {
     DBHelper db;
     ListView alarmList;
-    ArrayList<Calendar> arrayList;
-    ArrayAdapter<Calendar> arrayAdapter;
+    ArrayList<Notification> arrayList;
+    ArrayAdapter<Notification> arrayAdapter;
     ArrayList<String> myIDs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class ListAlarmsActivity extends Activity {
         setTitle("Alarms");
         db = DBHelper.getInstance(this);
         arrayList = db.getAllAlarms();
-        arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,convertCalendarToString(arrayList));
+        arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,convertNotificationToString(arrayList));
 
         myIDs = db.getAllIDs();
 
@@ -43,23 +44,23 @@ public class ListAlarmsActivity extends Activity {
         });
     }
 
-    ArrayList<String> convertCalendarToString(ArrayList<Calendar> calendarArrayList){
+    ArrayList<String> convertNotificationToString(ArrayList<Notification> notifArrayList){
         ArrayList<String> arrayList = new ArrayList<>();
-        for(Calendar calendar : calendarArrayList){
+        for(Notification notification : notifArrayList){
             StringBuilder builder = new StringBuilder();
-            builder.append(Integer.toString(calendar.get(Calendar.MONTH)));
+            builder.append(notification.getMonth());
             builder.append("/");
-            builder.append(Integer.toString(calendar.get(Calendar.DATE)));
+            builder.append(notification.getDay());
             builder.append("/");
-            builder.append(Integer.toString(calendar.get(Calendar.YEAR)));
+            builder.append(notification.getYear());
             builder.append(" ");
             Boolean isAM = true;
-            Integer hour = calendar.get(Calendar.HOUR);
+            Integer hour = Integer.parseInt(notification.getHour());
             if(hour >= 12){ hour -= 12; isAM = false; }
             if(hour == 0) { hour = 12; }
             builder.append(hour);
             builder.append(":");
-            builder.append(calendar.get(Calendar.MINUTE));
+            builder.append(notification.getMinute());
             if(isAM){
                 builder.append("AM");
             }else {

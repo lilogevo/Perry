@@ -129,6 +129,7 @@ public class Notification extends Activity {
 
     }
 
+    //getters
     public String getYear(){
         return this.year;
     }
@@ -148,4 +149,25 @@ public class Notification extends Activity {
     public String getMinute(){
         return this.minute;
     }
+
+    public String getName() {return this.taskResult;}
+
+    //setters
+    public void setYear(String year){
+        this.year = year;
+    }
+
+    public void setMonth(String month){
+        this.month = month;
+    }
+
+    public void setDay(String day){this.day = day;}
+
+    public void setHour(String hour) {this.hour = hour;}
+
+    public void setMinute(String minute){
+        this.minute = minute;
+    }
+
+    public void setName(String name) { this.taskResult = name;}
 }
