@@ -25,7 +25,7 @@ public class RingtoneService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        media_song = MediaPlayer.create(this, R.raw.loud_alarm_clock);
+        media_song = MediaPlayer.create(this, R.raw.alarm);
         media_song.start();
         return START_NOT_STICKY;
     }

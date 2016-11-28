@@ -24,6 +24,7 @@ public class Notification extends Activity {
     private PendingIntent pendingIntent;
     private TextView alarmHeader;
     private String result;
+    private Intent alarmIntent;
 
     private String year;
     private String month;
@@ -36,19 +37,18 @@ public class Notification extends Activity {
         setContentView(R.layout.activity_alarm);
 
         /* Retrieve a PendingIntent that will perform a broadcast */
-        Intent alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
+        alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, 0);
         Intent taskIntent = getIntent();
         alarmHeader = (TextView) findViewById(R.id.text);
         result = taskIntent.getStringExtra("alarm");
         alarmHeader.setText(result);
-
+        calendar = Calendar.getInstance();
 
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 time = new Time();
-                calendar = Calendar.getInstance();
                 Intent j = new Intent(Notification.this, Time.class);
                 j.putExtra("EditingTime", time);
                 startActivityForResult(j, 7890);
@@ -59,7 +59,6 @@ public class Notification extends Activity {
             @Override
             public void onClick(View v) {
                 date = new Date();
-                calendar = Calendar.getInstance();
                 Intent i = new Intent(Notification.this, Date.class);
                 i.putExtra("Editing", date);
                 startActivityForResult(i, 123456);
@@ -93,16 +92,23 @@ public class Notification extends Activity {
     }
 
     private void createAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * 20;
 
-        System.out.println(hour + ":" + minute);
-
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hour));
+        System.out.println(month + year + day + " " + hour + ":" + minute);
+        pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        calendar.set(Calendar.HOUR, Integer.valueOf(hour));
         calendar.set(Calendar.MINUTE, Integer.valueOf(minute));
-        calendar.set(Integer.valueOf(year),Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute));
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
+        calendar.set(Calendar.MONTH, Integer.valueOf(month) - 1);
+        calendar.set(Calendar.YEAR, Integer.valueOf(year));
+        calendar.set(Calendar.SECOND, 0);
 
+        System.out.println("Calender: " + calendar.getTimeInMillis());
+        System.out.println("Current: " + System.currentTimeMillis());
+        if (calendar.getTimeInMillis() > System.currentTimeMillis())
+            System.out.println("In the future");
+
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 interval, pendingIntent);
 
