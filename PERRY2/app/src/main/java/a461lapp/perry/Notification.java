@@ -22,7 +22,6 @@ public class Notification extends Activity {
     private Time time;
     private Calendar calendar;
     private PendingIntent pendingIntent;
-    private EditText alarmName;
     private TextView alarmHeader;
     private String result;
 
@@ -97,13 +96,35 @@ public class Notification extends Activity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * 20;
 
+        System.out.println(hour + ":" + minute);
+
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 57);
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hour));
+        calendar.set(Calendar.MINUTE, Integer.valueOf(minute));
         calendar.set(Integer.valueOf(year),Integer.valueOf(month), Integer.valueOf(day), Integer.valueOf(hour), Integer.valueOf(minute));
 
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 interval, pendingIntent);
 
+    }
+
+    public String getYear(){
+        return this.year;
+    }
+
+    public String getMonth(){
+        return this.month;
+    }
+
+    public String getDay(){
+        return this.day;
+    }
+
+    public String getHour(){
+        return this.hour;
+    }
+
+    public String getMinute(){
+        return this.minute;
     }
 }
