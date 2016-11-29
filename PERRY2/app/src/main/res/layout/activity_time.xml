@@ -14,18 +14,8 @@
         android:id="@+id/time_activity_text_view"
         android:layout_gravity="center_horizontal"
         android:layout_above="@+id/time_activity_confirm_button"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Change Time"
-        android:id="@+id/time_activity_confirm_button"
-        android:layout_weight="0.03"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp" />
 
     <TimePicker
         android:layout_width="wrap_content"
@@ -43,6 +33,17 @@
         android:id="@+id/timeHeader"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Change Time"
+        android:id="@+id/time_activity_confirm_button"
+        android:layout_weight="0.03"
+        android:layout_marginBottom="31dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

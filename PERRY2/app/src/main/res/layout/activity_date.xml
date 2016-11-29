@@ -14,7 +14,8 @@
         android:id="@+id/text_view"
         android:layout_gravity="center_horizontal"
         android:layout_above="@+id/confirm_date"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
         android:id="@+id/dateHeader"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp" />
 
 </RelativeLayout>

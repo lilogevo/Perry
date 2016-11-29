@@ -42,7 +42,10 @@ public class Data {
         return this.hour;
     }
 
-    public String getMinute(){
-        return this.minute;
+    public String getMinute() {
+        if ((this.minute).length() == 1){
+            return 0 + this.minute;
+        } else
+            return this.minute;
     }
 }

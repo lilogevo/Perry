@@ -61,6 +61,7 @@ public class Time extends AppCompatActivity implements Serializable {
     @TargetApi(23)
     public String getCurrentTime(){
         int h = picker.getHour();
+        int m = picker.getMinute();
         if(h >= 12){
             this.am_pm = " PM";             //time is PM and converts the time
             if(h >= 13 && h <24){           //1-11pm
@@ -71,9 +72,13 @@ public class Time extends AppCompatActivity implements Serializable {
         } else if(h == 0){
             h = 12;                        //12am
         }
+        if (m < 10) {
+            this.minute = "0" + m;
+        } else {
+            this.minute = "" + m;
+        }
 
         this.hour = "" + h;
-        this.minute = "" + picker.getMinute();
 
 
         StringBuilder builder=new StringBuilder();
