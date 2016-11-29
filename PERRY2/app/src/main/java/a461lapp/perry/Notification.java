@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import java.util.Calendar;
 
+
 /**
  * Created by bkool on 11/12/2016.
  */
@@ -30,6 +31,7 @@ public class Notification extends Activity {
     private String dateResult;
     private Intent alarmIntent;
     private Intent taskIntent;
+    private long id;
 
     private String year;
     private String month;
@@ -37,19 +39,26 @@ public class Notification extends Activity {
     private String hour;
     private String minute;
 
+    DBHelper db;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        id = System.currentTimeMillis();
+
+
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, 0);
+        pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
         taskIntent = getIntent();
         alarmHeader = (TextView) findViewById(R.id.text);
         timeHeader = (TextView) findViewById(R.id.changedTime);
         dateHeader = (TextView) findViewById(R.id.changedDate);
         taskResult = taskIntent.getStringExtra("alarm");
         alarmHeader.setText(taskResult);
+
+        db = DBHelper.getInstance(this);
 
         calendar = Calendar.getInstance();
 
@@ -77,9 +86,13 @@ public class Notification extends Activity {
         });
 
         findViewById(R.id.checkBox).setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
+                System.out.println(taskResult);
                 createAlarm();
+                db.insertAlarm(taskResult, month, day, year, hour, minute);
             }
         });
 
@@ -110,7 +123,7 @@ public class Notification extends Activity {
         int interval = 1000 * 60 * 20;
 
         System.out.println(month + year + day + " " + hour + ":" + minute);
-        pendingIntent = PendingIntent.getBroadcast(Notification.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         calendar.set(Calendar.HOUR, Integer.valueOf(hour));
         calendar.set(Calendar.MINUTE, Integer.valueOf(minute));
         calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));

@@ -49,9 +49,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table " + TABLE_NAME + " " + COLUMN_ID +
-                        "(id integer primary key, " + COLUMN_NAME + " text, " +
-                        COLUMN_HOUR + " integer, " + COLUMN_MINUTE + " integer)"
+                "create table " + TABLE_NAME + " ( " +
+                        COLUMN_ID + " id integer primary key, " +
+                        COLUMN_NAME + " text, " +
+                        COLUMN_DAY + " integer, " +
+                        COLUMN_MONTH + " integer, " +
+                        COLUMN_YEAR + " integer, " +
+                        COLUMN_HOUR + " integer, " +
+                        COLUMN_MINUTE + " integer);"
         );
     }
 
@@ -62,23 +67,38 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertAlarm(Notification notification) {
+    public boolean insertAlarm(String _name, String _month, String _day, String _year, String _hour, String _minute) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_NAME, notification.getName());
-        contentValues.put(COLUMN_MONTH, notification.getMonth());
-        contentValues.put(COLUMN_DAY, notification.getDay());
-        contentValues.put(COLUMN_YEAR, notification.getYear());
-        contentValues.put(COLUMN_HOUR, notification.getHour());
-        contentValues.put(COLUMN_MINUTE, notification.getMinute());
+//        contentValues.put(COLUMN_NAME, notification.getName());
+//        contentValues.put(COLUMN_MONTH, notification.getMonth());
+//        contentValues.put(COLUMN_DAY, notification.getDay());
+//        contentValues.put(COLUMN_YEAR, notification.getYear());
+//        contentValues.put(COLUMN_HOUR, notification.getHour());
+//        contentValues.put(COLUMN_MINUTE, notification.getMinute());
+        contentValues.put(COLUMN_NAME, _name);
+        contentValues.put(COLUMN_MONTH, _month);
+        contentValues.put(COLUMN_DAY, _day);
+        contentValues.put(COLUMN_YEAR, _year);
+        contentValues.put(COLUMN_HOUR, _hour);
+        contentValues.put(COLUMN_MINUTE, _minute);
+
+        System.out.println(_name + _month + _day + _year + _hour + _minute );
+
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         if(result == -1){
+            System.out.println("alarm is not created");
             return false;
+
         }
         else{
+            System.out.println("alarm is created");
             return true;
         }
+
+
+
     }
 
     public Cursor getData(int id) {

@@ -10,10 +10,13 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     Button changeActivityExampleButton;
+    DBHelper database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         changeActivityExampleButton = (Button) findViewById(R.id.createAlarm);
         changeActivityExampleButton.setOnClickListener(new View.OnClickListener() {
