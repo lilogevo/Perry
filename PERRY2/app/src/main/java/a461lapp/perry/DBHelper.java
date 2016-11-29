@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table " + TABLE_NAME + " ( " +
-                        COLUMN_ID + " id integer primary key, " +
+                        COLUMN_ID + " integer primary key, " +
                         COLUMN_NAME + " text, " +
                         COLUMN_DAY + " integer, " +
                         COLUMN_MONTH + " integer, " +
@@ -67,7 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertAlarm(String _name, String _month, String _day, String _year, String _hour, String _minute) {
+    public boolean insertAlarm(String _id, String _name, String _month, String _day, String _year, String _hour, String _minute) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 //        contentValues.put(COLUMN_NAME, notification.getName());
@@ -76,6 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
 //        contentValues.put(COLUMN_YEAR, notification.getYear());
 //        contentValues.put(COLUMN_HOUR, notification.getHour());
 //        contentValues.put(COLUMN_MINUTE, notification.getMinute());
+        contentValues.put(COLUMN_ID, _id);
         contentValues.put(COLUMN_NAME, _name);
         contentValues.put(COLUMN_MONTH, _month);
         contentValues.put(COLUMN_DAY, _day);
@@ -83,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_HOUR, _hour);
         contentValues.put(COLUMN_MINUTE, _minute);
 
-        System.out.println(_name + _month + _day + _year + _hour + _minute );
+        System.out.println(_id + _name + _month + _day + _year + _hour + _minute );
 
 
         long result = db.insert(TABLE_NAME, null, contentValues);
@@ -113,7 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateAlarm(Integer id, Notification notification) {
+    public boolean updateAlarm(Integer id, Data notification) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, notification.getName());
@@ -134,8 +135,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{Integer.toString(id)});
     }
 
-    public ArrayList<Notification> getAllAlarms() {
-        ArrayList<Notification> arrayList = new ArrayList<Notification>();
+    public ArrayList<Data> getAllAlarms() {
+        ArrayList<Data> arrayList = new ArrayList<Data>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -143,13 +144,14 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            Notification notification = new Notification();
-            notification.setName(res.getString(res.getColumnIndex(COLUMN_NAME)));
-            notification.setYear(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_YEAR))));
-            notification.setMonth(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MONTH))));
-            notification.setDay(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_DAY))));
-            notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_HOUR))));
-            notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
+            Data notification = new Data();
+            String name = (res.getString(res.getColumnIndex(COLUMN_NAME)));
+            String year = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_YEAR))));
+            String month = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MONTH))));
+            String day = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_DAY))));
+            String hour = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_HOUR))));
+            String minute = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
+            notification.setField(name, year,month,day,hour,minute);
             arrayList.add(notification);
             res.moveToNext();
         }
@@ -185,6 +187,12 @@ public class DBHelper extends SQLiteOpenHelper {
         notification.setHour(String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
         res.close();
         return notification;
+    }
+
+    public void clearDatabase(String TABLE_NAME) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String clearDBQuery = "DELETE FROM "+TABLE_NAME;
+        db.execSQL(clearDBQuery);
     }
 }
 

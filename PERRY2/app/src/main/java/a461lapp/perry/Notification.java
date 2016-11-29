@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.Calendar;
+import java.util.*;
 
 
 /**
@@ -45,6 +46,7 @@ public class Notification extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         id = System.currentTimeMillis();
+
 
 
 
@@ -92,7 +94,8 @@ public class Notification extends Activity {
             public void onClick(View v) {
                 System.out.println(taskResult);
                 createAlarm();
-                db.insertAlarm(taskResult, month, day, year, hour, minute);
+                db.insertAlarm(String.valueOf(id), taskResult, month, day, year, hour, minute);
+
             }
         });
 
@@ -108,6 +111,7 @@ public class Notification extends Activity {
 
             dateResult = data.getStringExtra("date");
             dateHeader.setText(dateResult);
+
         }
 
         if ((requestCode == 7890) && (resultCode == RESULT_OK) && (data != null)) {

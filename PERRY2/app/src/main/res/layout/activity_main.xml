@@ -19,6 +19,15 @@
         android:layout_alignBottom="@+id/alarmName"
         android:layout_toRightOf="@+id/alarmName" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateAlarm"
+        android:text="+"
+        android:layout_alignBaseline="@+id/alarmName"
+        android:layout_alignBottom="@+id/alarmName"
+        android:layout_toLeftOf="@+id/alarmName" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,5 +48,15 @@
         android:layout_marginLeft="54dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="37dp"
+        android:layout_marginEnd="37dp"
+        android:id="@+id/table"
+        android:layout_below="@id/alarmName"/>
 
 </RelativeLayout>

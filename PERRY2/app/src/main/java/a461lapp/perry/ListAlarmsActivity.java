@@ -17,8 +17,8 @@ import java.util.Calendar;
 public class ListAlarmsActivity extends Activity {
     DBHelper db;
     ListView alarmList;
-    ArrayList<Notification> arrayList;
-    ArrayAdapter<Notification> arrayAdapter;
+    ArrayList<Data> arrayList;
+    ArrayAdapter<Data> arrayAdapter;
     ArrayList<String> myIDs;
 
     @Override
@@ -44,9 +44,9 @@ public class ListAlarmsActivity extends Activity {
         });
     }
 
-    ArrayList<String> convertNotificationToString(ArrayList<Notification> notifArrayList){
+    ArrayList<String> convertNotificationToString(ArrayList<Data> notifArrayList){
         ArrayList<String> arrayList = new ArrayList<>();
-        for(Notification notification : notifArrayList){
+        for(Data notification : notifArrayList){
             StringBuilder builder = new StringBuilder();
             builder.append(notification.getMonth());
             builder.append("/");
