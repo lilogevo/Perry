@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Data> temp = db.getAllAlarms();
                 for (int i = 0; i < temp.size(); i++){
                     listOfAlarms.add(temp.get(i));
+                    System.out.println(temp.get(i).getName());
                 }
                updateAlarm();
             }

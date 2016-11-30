@@ -7,8 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+//import android.widget.Button;
+import android.widget.ImageButton;
+//import android.widget.EditText;
 import android.widget.TextView;
 import java.util.Calendar;
 import java.util.*;
@@ -63,6 +64,16 @@ public class Notification extends Activity {
         db = DBHelper.getInstance(this);
 
         calendar = Calendar.getInstance();
+
+
+
+        ImageButton deleteButton = (ImageButton) findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               db.deleteAlarm(String.valueOf(id));
+            }
+        });
 
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
             @Override

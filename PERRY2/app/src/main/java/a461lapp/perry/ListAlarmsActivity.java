@@ -39,7 +39,7 @@ public class ListAlarmsActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 // Integer idToSearch = Integer.parseInt(myIDs.get(position));
-                db.deleteAlarm(Integer.parseInt(myIDs.get(position)));
+               // db.deleteAlarm(Integer.parseInt(myIDs.get(position)));
             }
         });
     }
