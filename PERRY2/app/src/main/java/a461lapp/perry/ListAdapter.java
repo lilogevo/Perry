@@ -51,6 +51,8 @@ public class ListAdapter extends ArrayAdapter<Data>  {
                 date.setText(alarmDate + "            " + alarmTime);
             }
 
+
+
         }
 
 //        ImageButton info = (ImageButton)v.findViewById(R.id.infoButton);

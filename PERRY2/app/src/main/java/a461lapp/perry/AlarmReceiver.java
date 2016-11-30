@@ -13,11 +13,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("received");
-        Toast.makeText(context, "TEXAS FIGHT", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Alarm is ringing", Toast.LENGTH_SHORT).show();
 
         Intent ringtone_intent = new Intent(context, RingtoneService.class);
         context.startService(ringtone_intent);
-
 
     }
 }

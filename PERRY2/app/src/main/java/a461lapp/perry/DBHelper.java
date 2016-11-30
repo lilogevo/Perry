@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static DBHelper mInstance;
-    public static final String DATABASE_NAME = "alarms.db";
+    public static final String DATABASE_NAME = "Alarm.db";
     public static final String TABLE_NAME = "alarm_list";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
@@ -149,13 +149,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while (res.isAfterLast() == false) {
             Data notification = new Data();
+            String id = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_ID))));
+            System.out.println("DBHelper: " +  id);
             String name = (res.getString(res.getColumnIndex(COLUMN_NAME)));
             String year = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_YEAR))));
             String month = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MONTH))));
             String day = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_DAY))));
             String hour = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_HOUR))));
             String minute = (String.valueOf(res.getInt(res.getColumnIndex(COLUMN_MINUTE))));
-            notification.setField(name, year,month,day,hour,minute);
+            notification.setField(id, name, year,month,day,hour,minute);
             arrayList.add(notification);
             res.moveToNext();
         }

@@ -41,28 +41,47 @@ public class Notification extends Activity {
     private String day;
     private String hour;
     private String minute;
+    private Data data;
 
     DBHelper db;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
-        id = System.currentTimeMillis();
+        db = DBHelper.getInstance(this);
+        id = (int) System.currentTimeMillis();
+        System.out.println("ID created: " + id);
 
-
-
+        alarmHeader = (TextView) findViewById(R.id.text);
+        timeHeader = (TextView) findViewById(R.id.changedTime);
+        dateHeader = (TextView) findViewById(R.id.changedDate);
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
         taskIntent = getIntent();
-        alarmHeader = (TextView) findViewById(R.id.text);
-        timeHeader = (TextView) findViewById(R.id.changedTime);
-        dateHeader = (TextView) findViewById(R.id.changedDate);
-        taskResult = taskIntent.getStringExtra("alarm");
-        alarmHeader.setText(taskResult);
 
-        db = DBHelper.getInstance(this);
+        taskResult = taskIntent.getStringExtra("alarm");
+        data = (Data) taskIntent.getSerializableExtra("data");
+
+        if (data != null){
+            alarmHeader.setText(data.getName());
+            timeHeader.setText(data.getHour() + ":" +  data.getMinute());
+            dateHeader.setText(data.getMonth()+ "/" + data.getDay() + "/" + data.getYear());
+            this.id = Integer.valueOf(data.getID());
+            this.year = data.getYear();
+            this.month = data.getMonth();
+            this.day = data.getDay();
+            this.hour = data.getHour();
+            this.minute = data.getMinute();
+            this.taskResult = data.getName();
+            pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
+            db.deleteAlarm(data.getID());
+        }
+
+        else {
+            alarmHeader.setText(taskResult);
+        }
 
         calendar = Calendar.getInstance();
 
@@ -72,9 +91,12 @@ public class Notification extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               db.deleteAlarm(String.valueOf(id));
+               db.deleteAlarm(Integer.toString((int) id));
                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                manager.cancel(pendingIntent);
+               Intent resultIntent = new Intent(Notification.this, MainActivity.class);
+               setResult(Activity.RESULT_OK, resultIntent);
+               finish();
             }
         });
 
@@ -108,7 +130,8 @@ public class Notification extends Activity {
                 if (check.isChecked() && year != null && hour != null) {
                     System.out.println(taskResult);
                     createAlarm();
-                    db.insertAlarm(String.valueOf(id), taskResult, month, day, year, hour, minute);
+                    db.insertAlarm(Integer.toString((int)id), taskResult, month, day, year, hour, minute);
+                    System.out.println("Look for these three:");
                     Intent resultIntent = new Intent(Notification.this, MainActivity.class);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
@@ -165,8 +188,6 @@ public class Notification extends Activity {
         calendar.set(Calendar.YEAR, Integer.valueOf(year));
         calendar.set(Calendar.SECOND, 0);
 
-        System.out.println("Calender: " + calendar.getTimeInMillis());
-        System.out.println("Current: " + System.currentTimeMillis());
         if (calendar.getTimeInMillis() > System.currentTimeMillis())
             System.out.println("In the future");
 

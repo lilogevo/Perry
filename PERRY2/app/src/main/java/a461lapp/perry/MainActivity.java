@@ -46,15 +46,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        yourListView.setClickable(true);
         yourListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                 Data data = (Data) yourListView.getItemAtPosition(position);
-                System.out.println("Click Listener");
-                System.out.println(data.getMonth() + data.getDay() + data.getYear());
-
+                Intent i = new Intent(MainActivity.this, Notification.class);
+                i.putExtra("data", data);
+                startActivityForResult(i, 1010);
             }
         });
 

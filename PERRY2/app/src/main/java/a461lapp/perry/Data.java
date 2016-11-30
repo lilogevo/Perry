@@ -14,8 +14,10 @@ public class Data implements Serializable{
     private String day;
     private String hour;
     private String minute;
+    private String id;
 
-    public void setField (String name, String year, String month, String day, String hour, String minute){
+    public void setField (String id, String name, String year, String month, String day, String hour, String minute){
+        this.id = id;
         this.name = name;
         this.year = year;
         this.month = month;
@@ -23,6 +25,8 @@ public class Data implements Serializable{
         this.hour = hour;
         this.minute = minute;
     }
+
+    public String getID() { return this.id;}
 
     public String getName(){
         return this.name;

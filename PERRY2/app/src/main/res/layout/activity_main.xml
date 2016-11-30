@@ -41,6 +41,7 @@
         android:layout_alignParentLeft="true" />
 
     <ListView
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
