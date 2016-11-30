@@ -1,10 +1,12 @@
 package a461lapp.perry;
 
+import java.io.Serializable;
+
 /**
  * Created by aftabhadimohd on 11/28/16.
  */
 
-public class Data {
+public class Data implements Serializable{
 
     private String name;
     private String year;

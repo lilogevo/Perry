@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 //import android.widget.Button;
 import android.widget.ImageButton;
-//import android.widget.EditText;
+import android.widget.*;
 import android.widget.TextView;
 import java.util.Calendar;
 import java.util.*;
@@ -28,6 +28,7 @@ public class Notification extends Activity {
     private TextView alarmHeader;
     private TextView timeHeader;
     private TextView dateHeader;
+    private CheckBox check;
     private String taskResult;
     private String timeResult;
     private String dateResult;
@@ -72,6 +73,8 @@ public class Notification extends Activity {
             @Override
             public void onClick(View v) {
                db.deleteAlarm(String.valueOf(id));
+               AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+               manager.cancel(pendingIntent);
             }
         });
 
@@ -97,15 +100,31 @@ public class Notification extends Activity {
 
 
         });
-
-        findViewById(R.id.checkBox).setOnClickListener(new View.OnClickListener() {
-
+        check = (CheckBox) findViewById(R.id.checkBox);
+        check.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                System.out.println(taskResult);
-                createAlarm();
-                db.insertAlarm(String.valueOf(id), taskResult, month, day, year, hour, minute);
+                if (check.isChecked() && year != null && hour != null) {
+                    System.out.println(taskResult);
+                    createAlarm();
+                    db.insertAlarm(String.valueOf(id), taskResult, month, day, year, hour, minute);
+                    Intent resultIntent = new Intent(Notification.this, MainActivity.class);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+                if (year == null && hour == null){
+                    System.out.println("Enter Time and Date");
+                    check.toggle();
+                }
+                else if (hour == null){
+                    System.out.println("Enter Time");
+                    check.toggle();
+                }
+                else if (year == null){
+                    System.out.println("Enter Date");
+                    check.toggle();
+                }
 
             }
         });

@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static DBHelper mInstance;
-    public static final String DATABASE_NAME = "alarm.db";
+    public static final String DATABASE_NAME = "alarms.db";
     public static final String TABLE_NAME = "alarm_list";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";

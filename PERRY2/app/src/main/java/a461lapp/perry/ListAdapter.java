@@ -8,9 +8,12 @@ import android.content.*;
 import android.view.*;
 import java.util.*;
 import android.widget.*;
+import android.app.*;
+import android.widget.AdapterView.*;
 
 
-public class ListAdapter extends ArrayAdapter<Data> {
+
+public class ListAdapter extends ArrayAdapter<Data>  {
 
     public ListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -31,27 +34,39 @@ public class ListAdapter extends ArrayAdapter<Data> {
             v = vi.inflate(R.layout.itemlistrow, null);
         }
 
-        Data p = getItem(position);
+        final Data p = getItem(position);
 
         if (p != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.id);
-            TextView tt2 = (TextView) v.findViewById(R.id.categoryId);
-            TextView tt3 = (TextView) v.findViewById(R.id.description);
+            TextView name = (TextView) v.findViewById(R.id.alarm_name);
+            TextView date = (TextView) v.findViewById(R.id.date);
 
-            if (tt1 != null) {
-                tt1.setText(p.getYear());
+
+            if (name != null){
+                name.setText(p.getName());
             }
 
-            if (tt2 != null) {
-                tt2.setText(p.getHour());
+            if (date != null ) {
+                String alarmDate = p.getMonth() + "/" + p.getDay() + "/" + p.getYear();
+                String alarmTime = p.getHour() + ":" + p.getMinute();
+                date.setText(alarmDate + "            " + alarmTime);
             }
 
-            if (tt3 != null) {
-                tt3.setText(p.getMinute());
-            }
         }
+
+//        ImageButton info = (ImageButton)v.findViewById(R.id.infoButton);
+//        info.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent( getContext(), Notification.class);
+//                i.putExtra("alarm", p);
+//                //Integer num = extras.getInt("ex_int");// goes in data.java
+//                getContext().startActivity(i);
+//            }
+//        });
+
 
         return v;
     }
+
 
 }

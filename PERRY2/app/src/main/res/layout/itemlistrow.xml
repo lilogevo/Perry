@@ -7,36 +7,47 @@
         android:id="@+id/TableRow01"
         android:layout_height="wrap_content">
 
-        <TextView android:textColor="#000000"
-            android:id="@+id/id"
+        <TextView
+            android:id="@+id/alarm_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="id" android:textStyle="bold"
+            android:text="Alarm Name"
             android:gravity="left"
             android:layout_weight="1"
             android:typeface="monospace"
-            android:height="40sp" />
+            android:height="40sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:focusable="false"/>
+
+        <ImageButton
+            android:layout_width="92dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/info"
+            android:id="@+id/infoButton"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:focusable="false"/>
+
     </TableRow>
 
     <TableRow android:layout_height="wrap_content"
         android:layout_width="fill_parent">
 
-        <TextView android:textColor="#000000"
-            android:id="@+id/categoryId"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="categoryId"
-            android:layout_weight="1"
-            android:height="20sp" />
-
         <TextView android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:gravity="right"
-            android:id="@+id/description"
-            android:text="description"
-            android:height="20sp" />
+            android:gravity="center_horizontal"
+            android:id="@+id/date"
+            android:text="date"
+            android:height="20sp"
+            android:focusableInTouchMode="false"
+            android:clickable="false"
+            android:focusable="false"/>
     </TableRow>
 
 </TableLayout>

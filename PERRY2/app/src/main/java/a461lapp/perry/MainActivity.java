@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.*;
+import android.widget.AdapterView.*;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,27 +42,40 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, Notification.class);
                 i.putExtra("alarm", taskName.getText().toString());
                 //Integer num = extras.getInt("ex_int");// goes in data.java
-                startActivity(i);
+                startActivityForResult(i, 1010);
             }
         });
 
-        Button updateButton = (Button) findViewById(R.id.updateAlarm);
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        yourListView.setOnItemClickListener(new OnItemClickListener() {
+
             @Override
-            public void onClick(View v) {
-                listOfAlarms.clear();
-                ArrayList<Data> temp = db.getAllAlarms();
-                for (int i = 0; i < temp.size(); i++){
-                    listOfAlarms.add(temp.get(i));
-                    System.out.println(temp.get(i).getName());
-                }
-               updateAlarm();
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+
+                Data data = (Data) yourListView.getItemAtPosition(position);
+                System.out.println("Click Listener");
+                System.out.println(data.getMonth() + data.getDay() + data.getYear());
+
             }
         });
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1010 && resultCode == RESULT_OK) {
+            updateAlarm();
+            System.out.println("Working");
+        }
+
+    }
+
     public void updateAlarm(){
+        ArrayList<Data> temp = db.getAllAlarms();
+        listOfAlarms.clear();
+        for (int i = 0; i < temp.size(); i++){
+            listOfAlarms.add(temp.get(i));
+        }
         ListAdapter newAdapter = new ListAdapter(this, R.layout.itemlistrow, listOfAlarms);
         yourListView.setAdapter(newAdapter);
     }
