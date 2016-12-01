@@ -13,7 +13,7 @@ import android.widget.AdapterView.*;
 
 
 
-public class ListAdapter extends ArrayAdapter<Data>  {
+public class ListAdapter extends ArrayAdapter<Data> {
 
     public ListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -46,8 +46,8 @@ public class ListAdapter extends ArrayAdapter<Data>  {
             }
 
             if (date != null ) {
-                String alarmDate = p.getMonth() + "/" + p.getDay() + "/" + p.getYear();
-                String alarmTime = p.getHour() + ":" + p.getMinute();
+                String alarmDate = "Date: " + p.getMonth() + "/" + p.getDay() + "/" + p.getYear();
+                String alarmTime = "Time: " + p.getHour() + ":" + p.getMinute();
                 date.setText(alarmDate + "            " + alarmTime);
             }
 

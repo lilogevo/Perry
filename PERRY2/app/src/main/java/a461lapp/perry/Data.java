@@ -15,8 +15,9 @@ public class Data implements Serializable{
     private String hour;
     private String minute;
     private String id;
+    private String am_pm;
 
-    public void setField (String id, String name, String year, String month, String day, String hour, String minute){
+    public void setField (String id, String name, String year, String month, String day, String hour, String minute, String am_pm){
         this.id = id;
         this.name = name;
         this.year = year;
@@ -24,6 +25,7 @@ public class Data implements Serializable{
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.am_pm = am_pm;
     }
 
     public String getID() { return this.id;}
@@ -47,6 +49,10 @@ public class Data implements Serializable{
     public String getHour(){
         return this.hour;
     }
+
+    public String getAm_pm() {
+        System.out.println("am pm in data is: " + this.am_pm);
+        return this.am_pm;}
 
     public String getMinute() {
         if ((this.minute).length() == 1){

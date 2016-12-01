@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 //import android.widget.Button;
 import android.widget.ImageButton;
@@ -41,6 +42,7 @@ public class Notification extends Activity {
     private String day;
     private String hour;
     private String minute;
+    private String am_pm;
     private Data data;
 
     DBHelper db;
@@ -58,16 +60,18 @@ public class Notification extends Activity {
 
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
+        alarmIntent.putExtra("extra", "nothing");
         pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
         taskIntent = getIntent();
+
 
         taskResult = taskIntent.getStringExtra("alarm");
         data = (Data) taskIntent.getSerializableExtra("data");
 
         if (data != null){
             alarmHeader.setText(data.getName());
-            timeHeader.setText(data.getHour() + ":" +  data.getMinute());
-            dateHeader.setText(data.getMonth()+ "/" + data.getDay() + "/" + data.getYear());
+            timeHeader.setText("Time Set: " + data.getHour() + ":" +  data.getMinute() + data.getAm_pm());
+            dateHeader.setText("Date Set: " + data.getMonth()+ "/" + data.getDay() + "/" + data.getYear());
             this.id = Integer.valueOf(data.getID());
             this.year = data.getYear();
             this.month = data.getMonth();
@@ -76,7 +80,10 @@ public class Notification extends Activity {
             this.minute = data.getMinute();
             this.taskResult = data.getName();
             pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
-            db.deleteAlarm(data.getID());
+            if(!(alarmIntent.getExtras().getString("extra").equals("nothing"))){
+                System.out.println(alarmIntent.getExtras().getString("extra"));
+                db.deleteAlarm(data.getID());
+            }
         }
 
         else {
@@ -91,6 +98,7 @@ public class Notification extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("haha");
                db.deleteAlarm(Integer.toString((int) id));
                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                manager.cancel(pendingIntent);
@@ -104,10 +112,9 @@ public class Notification extends Activity {
         stopButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                db.deleteAlarm(Integer.toString((int) id));
+                alarmIntent.putExtra("extra", "alarm off");
                 AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 manager.cancel(pendingIntent);
-                alarmIntent.putExtra("extra", "alarm off");
                 sendBroadcast(alarmIntent); //stop ringtone
                 Intent resultIntent = new Intent(Notification.this, MainActivity.class);
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -145,7 +152,8 @@ public class Notification extends Activity {
                 if (check.isChecked() && year != null && hour != null) {
                     System.out.println(taskResult);
                     createAlarm();
-                    db.insertAlarm(Integer.toString((int)id), taskResult, month, day, year, hour, minute);
+                    System.out.println(am_pm);
+                    db.insertAlarm(Integer.toString((int)id), taskResult, month, day, year, hour, minute, am_pm);
                     System.out.println("Look for these three:");
                     Intent resultIntent = new Intent(Notification.this, MainActivity.class);
                     setResult(Activity.RESULT_OK, resultIntent);
@@ -185,14 +193,15 @@ public class Notification extends Activity {
         if ((requestCode == 7890) && (resultCode == RESULT_OK) && (data != null)) {
             hour = data.getStringExtra("Hour");
             minute = data.getStringExtra("Minute");
-
+            am_pm = data.getStringExtra("AM_PM");
+            System.out.println("ampm is " + am_pm);
             timeResult = data.getStringExtra("time");
             timeHeader.setText(timeResult);
         }
     }
 
     private void createAlarm() {
-        int interval = 1000 * 60 * 20;
+        int interval = 1000 * 60 * 20 * 60;
 
         System.out.println(month + year + day + " " + hour + ":" + minute);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -205,6 +214,7 @@ public class Notification extends Activity {
 
         if (calendar.getTimeInMillis() > System.currentTimeMillis())
             System.out.println("In the future");
+
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -234,6 +244,7 @@ public class Notification extends Activity {
     }
 
     public String getName() {return this.taskResult;}
+
 
     //setters
     public void setYear(String year){

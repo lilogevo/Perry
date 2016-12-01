@@ -27,14 +27,13 @@ public class RingtoneService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
-
+        System.out.println(intent.getExtras().getString("extra"));
         String state = intent.getExtras().getString("extra");
-        assert state != null;
-        if(state.equals("alarm off")){
-            this.startId = false;
+        if(state.equals("nothing")){
+            this.startId = true;
         }
         else{
-            this.startId = true;
+            this.startId = false;
         }
 
         if(this.isRunning && this.startId == false){
