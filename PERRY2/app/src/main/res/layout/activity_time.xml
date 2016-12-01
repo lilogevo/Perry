@@ -23,7 +23,8 @@
         android:id="@+id/time_activity_time_picker"
         android:layout_marginTop="62dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:headerBackground="@color/colorSecondary" />
 
     <TextView
         android:text="Set time for alarm"

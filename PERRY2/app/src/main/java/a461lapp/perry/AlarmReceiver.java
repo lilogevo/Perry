@@ -16,10 +16,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent ringtone_intent = new Intent(context, RingtoneService.class);
         if (intent.getStringExtra("extra").equals("nothing")) {
             ringtone_intent.putExtra("extra", "nothing");
-            Toast.makeText(context, "Alarm is ringing", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, intent.getStringExtra("name"), Toast.LENGTH_LONG).show();
         } else {
             ringtone_intent.putExtra("extra", "alarm off");
-            Toast.makeText(context, "Alarm is off", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Notification is off", Toast.LENGTH_SHORT).show();
         }
         context.startService(ringtone_intent);
     }

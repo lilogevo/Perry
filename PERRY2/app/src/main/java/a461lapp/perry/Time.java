@@ -53,6 +53,9 @@ public class Time extends AppCompatActivity implements Serializable {
                 resultIntent.putExtra("Hour", getHour());
                 resultIntent.putExtra("Minute", getMinute());
                 resultIntent.putExtra("AM_PM", getAm_pm());
+                System.out.println("Hour: " + getHour());
+                System.out.println("Minute: " + getMinute());
+                System.out.println("AM_PM: " + getAm_pm());
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
@@ -102,6 +105,8 @@ public class Time extends AppCompatActivity implements Serializable {
     }
 
     public String getAm_pm() { return am_pm;}
+
+
 
 
 }

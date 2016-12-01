@@ -58,15 +58,17 @@ public class Notification extends Activity {
         timeHeader = (TextView) findViewById(R.id.changedTime);
         dateHeader = (TextView) findViewById(R.id.changedDate);
 
+        taskIntent = getIntent();
+        taskResult = taskIntent.getStringExtra("alarm");
+        data = (Data) taskIntent.getSerializableExtra("data");
+
         /* Retrieve a PendingIntent that will perform a broadcast */
         alarmIntent = new Intent(Notification.this, AlarmReceiver.class);
         alarmIntent.putExtra("extra", "nothing");
+        alarmIntent.putExtra("name", taskResult);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
-        taskIntent = getIntent();
 
 
-        taskResult = taskIntent.getStringExtra("alarm");
-        data = (Data) taskIntent.getSerializableExtra("data");
 
         if (data != null){
             alarmHeader.setText(data.getName());
@@ -79,14 +81,9 @@ public class Notification extends Activity {
             this.hour = data.getHour();
             this.minute = data.getMinute();
             this.taskResult = data.getName();
+            this.am_pm = data.getAm_pm();
             pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
-            //db.updateAlarm((int) id, data);
-            if(!(alarmIntent.getExtras().getString("extra").equals("nothing"))){
-                System.out.println(alarmIntent.getExtras().getString("extra"));
-                db.deleteAlarm(data.getID());
-
-            }
-            //db.deleteAlarm(data.getID());
+            db.deleteAlarm(data.getID());
         }
 
         else {
@@ -101,10 +98,10 @@ public class Notification extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("haha");
                db.deleteAlarm(Integer.toString((int) id));
                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                manager.cancel(pendingIntent);
+               Toast.makeText(getApplicationContext(), "Notification Deleted", Toast.LENGTH_SHORT).show();
                Intent resultIntent = new Intent(Notification.this, MainActivity.class);
                setResult(Activity.RESULT_OK, resultIntent);
                finish();
@@ -116,6 +113,7 @@ public class Notification extends Activity {
             @Override
             public void onClick(View v) {
                 alarmIntent.putExtra("extra", "alarm off");
+                db.insertAlarm(Integer.toString((int) id), taskResult, month, day, year, hour, minute, am_pm);
                 AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 manager.cancel(pendingIntent);
                 sendBroadcast(alarmIntent); //stop ringtone
@@ -154,27 +152,33 @@ public class Notification extends Activity {
             public void onClick(View v) {
                 if (check.isChecked() && year != null && hour != null) {
                     System.out.println(taskResult);
-                    createAlarm();
-                    System.out.println(am_pm);
-                   // if(db.getAlarm((int) id) != null){
-                    //    db.updateAlarm((int) id, data);
-                    //} else {
-                    db.insertAlarm(Integer.toString((int)id), taskResult, month, day, year, hour, minute, am_pm);
-                    System.out.println("Look for these three:");
-                    Intent resultIntent = new Intent(Notification.this, MainActivity.class);
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
+                    if (createAlarm()) {
+                        // if(db.getAlarm((int) id) != null){
+                        //    db.updateAlarm((int) id, data);
+                        //} else {
+                        db.insertAlarm(Integer.toString((int) id), taskResult, month, day, year, hour, minute, am_pm);
+                        Intent resultIntent = new Intent(Notification.this, MainActivity.class);
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    }
+                    else{
+                        check.toggle();
+                        Toast.makeText(getApplicationContext(), "Cannot set past time or date", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 if (year == null && hour == null){
                     System.out.println("Enter Time and Date");
+                    Toast.makeText(getApplicationContext(), "Enter Time and Date", Toast.LENGTH_SHORT).show();
                     check.toggle();
                 }
                 else if (hour == null){
                     System.out.println("Enter Time");
+                    Toast.makeText(getApplicationContext(), "Enter Time", Toast.LENGTH_SHORT).show();
                     check.toggle();
                 }
                 else if (year == null){
                     System.out.println("Enter Date");
+                    Toast.makeText(getApplicationContext(), "Enter Date", Toast.LENGTH_SHORT).show();
                     check.toggle();
                 }
 
@@ -206,25 +210,38 @@ public class Notification extends Activity {
         }
     }
 
-    private void createAlarm() {
-        int interval = 1000 * 60 * 20 * 60;
+    private Boolean createAlarm() {
+        //int interval = 1000 * 60 * 20 * 60;
 
         System.out.println(month + year + day + " " + hour + ":" + minute);
         pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        calendar.set(Calendar.HOUR, Integer.valueOf(hour));
+        if (am_pm.equals(" AM") && Integer.valueOf(hour) == 12) {
+            calendar.set(Calendar.HOUR, Integer.valueOf(hour) - 12);
+        }
+        else if (am_pm.equals(" PM") && Integer.valueOf(hour) != 12) {
+            calendar.set(Calendar.HOUR, Integer.valueOf(hour) + 12);
+        }
+        else{
+            calendar.set(Calendar.HOUR, Integer.valueOf(hour));
+        }
         calendar.set(Calendar.MINUTE, Integer.valueOf(minute));
         calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(day));
         calendar.set(Calendar.MONTH, Integer.valueOf(month) - 1);
         calendar.set(Calendar.YEAR, Integer.valueOf(year));
         calendar.set(Calendar.SECOND, 0);
 
-        if (calendar.getTimeInMillis() > System.currentTimeMillis())
-            System.out.println("In the future");
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            return false;
+        }
 
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                interval, pendingIntent);
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        Toast.makeText(getApplicationContext(), "Notification Set", Toast.LENGTH_SHORT).show();
+
+        return true;
 
     }
 

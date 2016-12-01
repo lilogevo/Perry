@@ -27,18 +27,7 @@
         android:ems="10"
         android:id="@+id/alarmName"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/mainHeader"
-        android:layout_alignLeft="@+id/mainHeader" />
-
-    <TextView
-        android:text="Perry: Personal Secretary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mainHeader"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-        android:layout_marginLeft="54dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:maxLength="15"/>
 
     <ListView
         android:descendantFocusability="blocksDescendants"
