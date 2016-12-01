@@ -37,14 +37,14 @@ public class RingtoneService extends Service {
             this.startId = true;
         }
 
-        if(this.isRunning && startId == 0){
+        if(this.isRunning && this.startId == false){
             media_song.stop();
             media_song.reset();
             this.isRunning = false;
             this.startId = false;
         }
 
-        else if(!this.isRunning && startId == 0){
+        else if(!this.isRunning && this.startId == false){
             this.isRunning = false;
             this.startId = false;
         }
