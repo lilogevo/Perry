@@ -127,6 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_HOUR, notification.getHour());
         contentValues.put(COLUMN_MINUTE, notification.getMinute());
         contentValues.put(COLUMN_AM_PM, notification.getAm_pm());
+        System.out.println("update is working???");
         db.update(TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }

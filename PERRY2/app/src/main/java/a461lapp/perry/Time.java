@@ -22,7 +22,7 @@ public class Time extends AppCompatActivity implements Serializable {
     private Button displayTime;
     private TextView textview;
     private String hour;
-    private String am_pm = " AM";
+    private String am_pm;
     private String minute;
 
     @Override
@@ -62,7 +62,6 @@ public class Time extends AppCompatActivity implements Serializable {
     @TargetApi(23)
     public String getCurrentTime(){
         int h = picker.getHour();
-        System.out.println(h + "hour in time class");
         int m = picker.getMinute();
         if(h >= 12){
             this.am_pm = " PM";             //time is PM and converts the time
@@ -72,7 +71,10 @@ public class Time extends AppCompatActivity implements Serializable {
                 h = 12;
             }              //12pm
         } else if(h == 0){
-            h = 12;                        //12am
+            h = 12; //12am
+            this.am_pm = " AM";
+        } else {
+            this.am_pm = " AM";
         }
         if (m < 10) {
             this.minute = "0" + m;
@@ -87,7 +89,6 @@ public class Time extends AppCompatActivity implements Serializable {
         builder.append("Time Set: ");
         builder.append(this.hour + ":");
         builder.append(this.minute + "");
-        System.out.println(this.am_pm + "in time class");
         builder.append(this.am_pm);
         return builder.toString();
     }

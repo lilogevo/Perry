@@ -47,7 +47,7 @@ public class ListAdapter extends ArrayAdapter<Data> {
 
             if (date != null ) {
                 String alarmDate = "Date: " + p.getMonth() + "/" + p.getDay() + "/" + p.getYear();
-                String alarmTime = "Time: " + p.getHour() + ":" + p.getMinute();
+                String alarmTime = "Time: " + p.getHour() + ":" + p.getMinute() + p.getAm_pm();
                 date.setText(alarmDate + "            " + alarmTime);
             }
 

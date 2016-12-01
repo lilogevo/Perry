@@ -80,10 +80,13 @@ public class Notification extends Activity {
             this.minute = data.getMinute();
             this.taskResult = data.getName();
             pendingIntent = PendingIntent.getBroadcast(Notification.this, (int) id, alarmIntent, 0);
+            //db.updateAlarm((int) id, data);
             if(!(alarmIntent.getExtras().getString("extra").equals("nothing"))){
                 System.out.println(alarmIntent.getExtras().getString("extra"));
                 db.deleteAlarm(data.getID());
+
             }
+            //db.deleteAlarm(data.getID());
         }
 
         else {
@@ -153,6 +156,9 @@ public class Notification extends Activity {
                     System.out.println(taskResult);
                     createAlarm();
                     System.out.println(am_pm);
+                   // if(db.getAlarm((int) id) != null){
+                    //    db.updateAlarm((int) id, data);
+                    //} else {
                     db.insertAlarm(Integer.toString((int)id), taskResult, month, day, year, hour, minute, am_pm);
                     System.out.println("Look for these three:");
                     Intent resultIntent = new Intent(Notification.this, MainActivity.class);
