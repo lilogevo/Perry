@@ -15,6 +15,8 @@ import android.media.MediaPlayer;
 public class RingtoneService extends Service {
 
     MediaPlayer media_song;
+    boolean startId;
+    boolean isRunning;
 
     @Nullable
     @Override
@@ -25,8 +27,35 @@ public class RingtoneService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        media_song = MediaPlayer.create(this, R.raw.alarm);
-        media_song.start();
+
+        String state = intent.getExtras().getString("extra");
+        assert state != null;
+        if(state.equals("alarm off")){
+            this.startId = false;
+        }
+        else{
+            this.startId = true;
+        }
+
+        if(this.isRunning && startId == 0){
+            media_song.stop();
+            media_song.reset();
+            this.isRunning = false;
+            this.startId = false;
+        }
+
+        else if(!this.isRunning && startId == 0){
+            this.isRunning = false;
+            this.startId = false;
+        }
+
+        else{
+            media_song = MediaPlayer.create(this, R.raw.alarm);
+            media_song.start();
+            this.isRunning = true;
+            this.startId = false;
+        }
+
         return START_NOT_STICKY;
     }
 

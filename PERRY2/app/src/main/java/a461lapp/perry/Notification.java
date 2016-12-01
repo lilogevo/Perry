@@ -100,6 +100,21 @@ public class Notification extends Activity {
             }
         });
 
+        ImageButton stopButton = (ImageButton) findViewById(R.id.StopButton);
+        stopButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                db.deleteAlarm(Integer.toString((int) id));
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                manager.cancel(pendingIntent);
+                alarmIntent.putExtra("extra", "alarm off");
+                sendBroadcast(alarmIntent); //stop ringtone
+                Intent resultIntent = new Intent(Notification.this, MainActivity.class);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
         findViewById(R.id.setTime).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

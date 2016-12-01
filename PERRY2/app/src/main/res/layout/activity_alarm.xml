@@ -94,5 +94,13 @@
         android:id="@+id/deleteButton"
         android:background="@android:color/transparent" />
 
+    <ImageButton
+        android:layout_width="92dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:src="@drawable/stopbutt"
+        android:id="@+id/StopButton"
+        android:background="@android:color/transparent" />
+
 
 </LinearLayout>
